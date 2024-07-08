@@ -1,0 +1,64 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlserver"
+  url      = env("DATABASE_URL")
+}
+
+model Image {
+  id            Int             @id @default(autoincrement())
+  createdAt     DateTime        @default(now())
+  updatedAt     DateTime        @updatedAt
+  url           String          @db.NVarChar(500)
+  alt           String          @db.NVarChar(500)
+  PropertyImage PropertyImage[]
+  PropertPlans  PropertPlans[]
+}
+
+model PropertyImage {
+  id         Int      @id @default(autoincrement())
+  property   Property @relation(fields: [propertyId], references: [id])
+  propertyId Int
+  image      Image    @relation(fields: [imageId], references: [id])
+  imageId    Int
+}
+
+model PropertPlans {
+  id         Int      @id @default(autoincrement())
+  property   Property @relation(fields: [propertyId], references: [id])
+  propertyId Int
+  image      Image    @relation(fields: [imageId], references: [id])
+  imageId    Int
+}
+
+model Property {
+  id               Int             @id @default(autoincrement())
+  type             String          @db.Char(500)
+  createdAt        DateTime        @default(now())
+  updatedAt        DateTime        @updatedAt
+  title            String          @db.NVarChar(500)
+  slug             String          @db.NVarChar(500)
+  description      String          @db.NVarChar(Max)
+  shortDescription String          @db.NVarChar(1000)
+  minPrice         Decimal         @db.Decimal(19, 3)
+  maxPrice         Decimal         @db.Decimal(19, 3)
+  location_lat     Decimal         @db.Decimal(9, 6)
+  location_lon     Decimal         @db.Decimal(9, 6)
+  address_city     String          @db.NVarChar(500)
+  address_state    String          @db.NVarChar(500)
+  address_country  String          @db.NVarChar(500)
+  bedrooms         Int             @db.TinyInt
+  bathrooms        Int             @db.TinyInt
+  minArea          Int             @db.Int
+  maxArea          Int             @db.Int
+  PropertyImages   PropertyImage[]
+  PropertPlans     PropertPlans[]
+}
