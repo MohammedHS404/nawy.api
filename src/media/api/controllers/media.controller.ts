@@ -1,6 +1,6 @@
 import { Body, Controller, Post } from '@nestjs/common';
-import { MediaService } from '../../business/media.service';
-import { CreateMediaDto } from '../../business/media.create.dto';
+import { MediaService } from '../../business/services/media.service';
+import { CreateMediaDto } from '../../business/dtos/media.create.dto';
 import { MediaResponse } from '../responseModels/media.response';
 import { ApiTags } from '@nestjs/swagger';
 

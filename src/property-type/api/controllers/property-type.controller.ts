@@ -1,7 +1,7 @@
 import { Controller, Get } from '@nestjs/common';
-import { PropertyTypeService } from '../business/property-type.service';
-import { PropertyTypeResponse } from './property-type.list.response';
+import { PropertyTypeService } from '../../business/services/property-type.service';
 import { ApiTags } from '@nestjs/swagger';
+import { PropertyTypeResponse } from '../responseModels/property-type.list.response';
 
 @Controller('property-type')
 @ApiTags('property-type')

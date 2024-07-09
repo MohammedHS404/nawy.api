@@ -1,11 +1,12 @@
 import { Module } from '@nestjs/common';
-import { PropertyTypeService } from './business/property-type.service';
-import { PrismaService } from 'src/prisma/prisma.service';
-import { PropertyTypeController } from './api/property-type.controller';
+import { PropertyTypeService } from './business/services/property-type.service';
+import { PropertyTypeController } from './api/controllers/property-type.controller';
+import { PrismaModule } from 'src/prisma/prisma.module';
 
 @Module({
-    providers: [PropertyTypeService, PrismaService],
+    providers: [PropertyTypeService],
     controllers: [PropertyTypeController],
-    exports: [PropertyTypeService]
+    exports: [PropertyTypeService],
+    imports: [PrismaModule]
 })
 export class PropertyTypeModule { }

@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { Media, Prisma } from '@prisma/client';
-import { CreatePropertyDto } from './property.create.dto';
-import { PropertyListOptionsDto } from './property.list.options.dto';
+import { CreatePropertyDto } from '../dtos/property.create.dto';
+import { PropertyListOptionsDto } from '../dtos/property.list.options.dto';
 
 @Injectable()
 export class PropertyService {

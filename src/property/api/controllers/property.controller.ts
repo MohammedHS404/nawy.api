@@ -1,11 +1,11 @@
 import { BadRequestException, Body, Controller, Get, Post, Query } from '@nestjs/common';
-import { PropertyService } from '../../business/property.service';
+import { PropertyService } from '../../business/services/property.service';
 import { PropertyResponse } from '../responseModels/propety.list.response';
-import { CreatePropertyDto as CreatePropertyDto } from '../../business/property.create.dto';
+import { CreatePropertyDto as CreatePropertyDto } from '../../business/dtos/property.create.dto';
 import { Prisma } from '@prisma/client';
-import { PropertyTypeService } from 'src/property-type/business/property-type.service';
+import { PropertyTypeService } from 'src/property-type/business/services/property-type.service';
 import { ApiTags } from '@nestjs/swagger';
-import { PropertyListOptionsDto } from 'src/property/business/property.list.options.dto';
+import { PropertyListOptionsDto } from 'src/property/business/dtos/property.list.options.dto';
 
 @Controller('property')
 @ApiTags('property')
