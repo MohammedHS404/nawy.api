@@ -17,8 +17,6 @@ export class PropertyService {
   async getProperties(options: PropertyListOptionsDto): Promise<Prisma.PropertyGetPayload<{ include: { PropertyImages, PropertyPlans, PropertyType } }>[]> {
     const findManyArgs: Prisma.PropertyFindManyArgs = options.ToFindManyArgs();
 
-    console.log(findManyArgs);
-
     const properties = await this.prismaService.property.findMany({
       include: {
         PropertyType: true,

@@ -7,7 +7,7 @@ import { ValidationPipe } from '@nestjs/common';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
-  app.useGlobalPipes(new ValidationPipe());
+  app.useGlobalPipes(new ValidationPipe({ transform: true, transformOptions: { enableImplicitConversion: true } }));
 
   app.setGlobalPrefix('api');
 
@@ -25,7 +25,7 @@ async function bootstrap() {
     ) => methodKey
   };
 
-  const document = SwaggerModule.createDocument(app, config,options);
+  const document = SwaggerModule.createDocument(app, config, options);
 
   SwaggerModule.setup('api', app, document);
 

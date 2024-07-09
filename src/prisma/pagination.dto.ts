@@ -35,7 +35,7 @@ export class PaginationDto {
     } {
         return {
             orderBy: {
-                id: "asc"
+                [this.sortBy]: this.sortOrder
             },
             skip: (this.page - 1) * this.limit,
             take: this.limit

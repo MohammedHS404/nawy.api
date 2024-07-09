@@ -12,25 +12,15 @@ export class PropertyListOptionsDto {
     @IsOptional()
     public filters?: PropertyFiltersDto;
 
-    public constructor(
-        pagination?: PaginationDto,
-        filters?: PropertyFiltersDto
-    ) {
-        console.log('PropertyListOptionsDto constructor');
-        console.log(pagination);
-        this.pagination = pagination ?? new PaginationDto();
-        this.filters = filters;
-    }
-
     public ToFindManyArgs(): Prisma.PropertyFindManyArgs {
         let all: Prisma.PropertyFindManyArgs = {};
 
-        if (this.pagination) {
-            all = { ...all, ...this.pagination.toPrismaPagination() };
-        }
-
         if (this.filters) {
             all = { ...all, where: this.filters.toWhereInput() };
+        }
+
+        if (this.pagination) {
+            all = { ...all, ...this.pagination.toPrismaPagination() };
         }
 
         return all;

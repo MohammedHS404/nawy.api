@@ -20,9 +20,6 @@ export class PropertyController {
 
   @Post("/list")
   async getProperties(@Body() options?: PropertyListOptionsDto): Promise<PropertyResponse[]> {
-    // if (!(options instanceof PropertyListOptionsDto)) {
-    //   options = new PropertyListOptionsDto();
-    // }
     const properties = await this._propertyService.getProperties(options);
     const propertyResponses = properties.map(property => PropertyResponse.fromEntity(property));
     return propertyResponses;
