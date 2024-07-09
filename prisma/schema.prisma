@@ -13,35 +13,40 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Image {
+model Media {
   id            Int             @id @default(autoincrement())
   createdAt     DateTime        @default(now())
-  updatedAt     DateTime        @updatedAt
   url           String          @db.NVarChar(500)
-  alt           String          @db.NVarChar(500)
   PropertyImage PropertyImage[]
-  PropertPlans  PropertPlans[]
+  PropertPlans  PropertyPlans[]
 }
 
 model PropertyImage {
   id         Int      @id @default(autoincrement())
   property   Property @relation(fields: [propertyId], references: [id])
   propertyId Int
-  image      Image    @relation(fields: [imageId], references: [id])
-  imageId    Int
+  media      Media    @relation(fields: [mediaId], references: [id])
+  mediaId    Int
 }
 
-model PropertPlans {
+model PropertyPlans {
   id         Int      @id @default(autoincrement())
   property   Property @relation(fields: [propertyId], references: [id])
   propertyId Int
-  image      Image    @relation(fields: [imageId], references: [id])
-  imageId    Int
+  media      Media    @relation(fields: [mediaId], references: [id])
+  mediaId    Int
+}
+
+model PropertyType {
+  id         Int        @id @default(autoincrement())
+  createdAt  DateTime   @default(now())
+  updatedAt  DateTime   @updatedAt
+  name       String     @unique() @db.NVarChar(500)
+  Properties Property[]
 }
 
 model Property {
   id               Int             @id @default(autoincrement())
-  type             String          @db.Char(500)
   createdAt        DateTime        @default(now())
   updatedAt        DateTime        @updatedAt
   title            String          @db.NVarChar(500)
@@ -50,8 +55,8 @@ model Property {
   shortDescription String          @db.NVarChar(1000)
   minPrice         Decimal         @db.Decimal(19, 3)
   maxPrice         Decimal         @db.Decimal(19, 3)
-  location_lat     Decimal         @db.Decimal(9, 6)
-  location_lon     Decimal         @db.Decimal(9, 6)
+  location_lat     Decimal?        @db.Decimal(9, 6)
+  location_lon     Decimal?        @db.Decimal(9, 6)
   address_city     String          @db.NVarChar(500)
   address_state    String          @db.NVarChar(500)
   address_country  String          @db.NVarChar(500)
@@ -60,5 +65,7 @@ model Property {
   minArea          Int             @db.Int
   maxArea          Int             @db.Int
   PropertyImages   PropertyImage[]
-  PropertPlans     PropertPlans[]
+  PropertyPlans    PropertyPlans[]
+  PropertyType     PropertyType    @relation(fields: [typeId], references: [id])
+  typeId           Int
 }

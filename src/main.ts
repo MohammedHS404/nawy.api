@@ -1,10 +1,13 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
-import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import { DocumentBuilder, SwaggerDocumentOptions, SwaggerModule } from '@nestjs/swagger';
 import { IncomingMessage, ServerResponse } from 'http';
+import { ValidationPipe } from '@nestjs/common';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+
+  app.useGlobalPipes(new ValidationPipe());
 
   app.setGlobalPrefix('api');
 
@@ -15,7 +18,14 @@ async function bootstrap() {
     .addTag('nawy')
     .build();
 
-  const document = SwaggerModule.createDocument(app, config);
+  const options: SwaggerDocumentOptions = {
+    operationIdFactory: (
+      controllerKey: string,
+      methodKey: string
+    ) => methodKey
+  };
+
+  const document = SwaggerModule.createDocument(app, config,options);
 
   SwaggerModule.setup('api', app, document);
 
