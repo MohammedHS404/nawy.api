@@ -23,17 +23,17 @@ model Media {
 
 model PropertyImage {
   id         Int      @id @default(autoincrement())
-  property   Property @relation(fields: [propertyId], references: [id])
+  property   Property @relation(fields: [propertyId], references: [id], onDelete: Cascade)
   propertyId Int
-  media      Media    @relation(fields: [mediaId], references: [id])
+  media      Media    @relation(fields: [mediaId], references: [id], onDelete: Cascade)
   mediaId    Int
 }
 
 model PropertyPlans {
   id         Int      @id @default(autoincrement())
-  property   Property @relation(fields: [propertyId], references: [id])
+  property   Property @relation(fields: [propertyId], references: [id], onDelete: Cascade)
   propertyId Int
-  media      Media    @relation(fields: [mediaId], references: [id])
+  media      Media    @relation(fields: [mediaId], references: [id], onDelete: Cascade)
   mediaId    Int
 }
 

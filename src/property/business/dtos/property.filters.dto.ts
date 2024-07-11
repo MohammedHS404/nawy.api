@@ -5,6 +5,10 @@ import { IsOptional, Min } from "class-validator";
 export class PropertyFiltersDto {
     @ApiProperty()
     @IsOptional()
+    public query?: string;
+
+    @ApiProperty()
+    @IsOptional()
     public type?: string;
 
     @ApiProperty()
@@ -95,6 +99,43 @@ export class PropertyFiltersDto {
             where.maxArea = {
                 lte: this.maxArea
             }
+        }
+
+        if (this.query) {
+            where.OR = [
+                {
+                    address_city: {
+                        contains: this.query
+                    }
+                },
+                {
+                    address_country: {
+                        contains: this.query
+                    }
+                },
+                {
+                    address_state: {
+                        contains: this.query
+                    }
+                },
+                {
+                    description: {
+                        contains: this.query
+                    }
+                },
+                {
+                    title: {
+                        contains: this.query
+                    }
+                },
+                {
+                    PropertyType: {
+                        name: {
+                            contains: this.query
+                        }
+                    }
+                }
+            ]
         }
 
         return where;

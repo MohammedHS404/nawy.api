@@ -1,4 +1,4 @@
-import { BadRequestException, Body, Controller, Get, Post, Query } from '@nestjs/common';
+import { BadRequestException, Body, Controller, Get, HttpCode, Post, Query } from '@nestjs/common';
 import { PropertyService } from '../../business/services/property.service';
 import { PropertyResponse } from '../responseModels/propety.list.response';
 import { CreatePropertyDto as CreatePropertyDto } from '../../business/dtos/property.create.dto';
@@ -19,10 +19,17 @@ export class PropertyController {
   }
 
   @Post("/list")
-  async getProperties(@Body() options?: PropertyListOptionsDto): Promise<PropertyResponse[]> {
-    const properties = await this._propertyService.getProperties(options);
-    const propertyResponses = properties.map(property => PropertyResponse.fromEntity(property));
-    return propertyResponses;
+  @HttpCode(200)
+  async getProperties(@Body() options?: PropertyListOptionsDto): Promise<{
+    totalCount: number,
+    properties: PropertyResponse[]
+  }> {
+    const propertiesList = await this._propertyService.getProperties(options);
+    const propertyResponses = propertiesList.properties.map(property => PropertyResponse.fromEntity(property));
+    return {
+      totalCount: propertiesList.totalCount,
+      properties: propertyResponses
+    }
   }
 
   @Get('/:id')

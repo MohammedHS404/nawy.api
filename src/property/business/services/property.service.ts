@@ -14,8 +14,15 @@ export class PropertyService {
     this.prismaService = prismaService
   }
 
-  async getProperties(options: PropertyListOptionsDto): Promise<Prisma.PropertyGetPayload<{ include: { PropertyImages, PropertyPlans, PropertyType } }>[]> {
+  async getProperties(options: PropertyListOptionsDto): Promise<{
+    totalCount: number,
+    properties: Prisma.PropertyGetPayload<{ include: { PropertyImages, PropertyPlans, PropertyType } }>[]
+  }> {
     const findManyArgs: Prisma.PropertyFindManyArgs = options.ToFindManyArgs();
+
+    const totalCount = await this.prismaService.property.count({
+      where: findManyArgs.where
+    });
 
     const properties = await this.prismaService.property.findMany({
       include: {
@@ -33,8 +40,10 @@ export class PropertyService {
       },
       ...findManyArgs
     });
-
-    return properties;
+    return {
+      totalCount,
+      properties
+    }
   }
 
   getProperty(): string {
