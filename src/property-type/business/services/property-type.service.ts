@@ -11,7 +11,11 @@ export class PropertyTypeService {
     }
 
     public getAll(): Promise<PropertyType[]> {
-        return this._prismaService.propertyType.findMany();
+        return this._prismaService.propertyType.findMany({
+            orderBy: {
+                name: 'asc'
+            }
+        });
     }
 
     public getByName(name: string): Promise<PropertyType | null> {
