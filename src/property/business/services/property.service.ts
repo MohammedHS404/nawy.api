@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
-import { Media, Prisma } from '@prisma/client';
+import { Media, Prisma, Property } from '@prisma/client';
 import { CreatePropertyDto } from '../dtos/property.create.dto';
 import { PropertyListOptionsDto } from '../dtos/property.list.options.dto';
 
@@ -46,8 +46,27 @@ export class PropertyService {
     }
   }
 
-  getProperty(): string {
-    return 'This action returns a property';
+  async getProperty(slug: string): Promise< Prisma.PropertyGetPayload<{ include: { PropertyImages, PropertyPlans, PropertyType } }>> {
+    const property = await this.prismaService.property.findFirst({
+      where: {
+        slug: slug
+      },
+      include: {
+        PropertyType: true,
+        PropertyImages: {
+          include: {
+            media: true
+          }
+        },
+        PropertyPlans: {
+          include: {
+            media: true
+          }
+        }
+      }
+    });
+
+    return property;
   }
 
   async createProperty(newProperty: CreatePropertyDto): Promise<Prisma.PropertyGetPayload<{ include: { PropertyImages, PropertyPlans, PropertyType } }>> {

@@ -32,9 +32,11 @@ export class PropertyController {
     }
   }
 
-  @Get('/:id')
-  getProperty(): string {
-    return this._propertyService.getProperty();
+  @Get('/:slug')
+  async getProperty(@Query() slug: string): Promise<PropertyResponse> {
+    const property = await this._propertyService.getProperty(slug);
+
+    return PropertyResponse.fromEntity(property);
   }
 
   @Post('/create')
