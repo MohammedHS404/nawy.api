@@ -47,6 +47,7 @@ export class PropertyService {
   }
 
   async getProperty(slug: string): Promise< Prisma.PropertyGetPayload<{ include: { PropertyImages, PropertyPlans, PropertyType } }>> {
+    console.log('slug', slug);
     const property = await this.prismaService.property.findFirst({
       where: {
         slug: slug

@@ -1,4 +1,4 @@
-import { BadRequestException, Body, Controller, Get, HttpCode, Post, Query } from '@nestjs/common';
+import { BadRequestException, Body, Controller, Get, HttpCode, Param, Post, Query } from '@nestjs/common';
 import { PropertyService } from '../../business/services/property.service';
 import { PropertyResponse } from '../responseModels/propety.list.response';
 import { CreatePropertyDto as CreatePropertyDto } from '../../business/dtos/property.create.dto';
@@ -33,8 +33,8 @@ export class PropertyController {
   }
 
   @Get('/:slug')
-  async getProperty(@Query() slug: string): Promise<PropertyResponse> {
-    const property = await this._propertyService.getProperty(slug);
+  async getProperty(@Param() params: {slug:string}): Promise<PropertyResponse> {
+    const property = await this._propertyService.getProperty(params.slug);
 
     return PropertyResponse.fromEntity(property);
   }

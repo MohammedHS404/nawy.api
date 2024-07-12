@@ -6,6 +6,13 @@ const prisma = new PrismaClient();
 
 async function main() {
     try {
+        const getExistingTypes = await prisma.propertyType.findMany();
+
+        if (getExistingTypes.length > 0) {
+            console.log('Already seeded!');
+            return;
+        }
+
         const types = ['Apartment', 'Villa', 'TwinHouse', 'TownHouse', 'Duplex', 'Penthouse', 'Chalet', 'Studio', 'Cabin', 'Clinic', 'Office', 'Retail'];
 
         console.log('Seeding property types...')
